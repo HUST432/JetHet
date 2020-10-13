@@ -1,0 +1,9 @@
+Address:127.0.0.1
+BlockMode:1
+HomeDir:html/
+HomePage:index.html
+LoopPeriod:0.5
+MaxConnections:2147483647
+NotFoundPage:404.html
+Port:1234
+ReceiveBuffer:65536
