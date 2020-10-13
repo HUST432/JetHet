@@ -1,4 +1,4 @@
-#include "ReqHead.h"
+ï»¿#include "ReqHead.h"
 #include "PreDefinations.h"
 #include <fstream>
 #include <sstream>
@@ -9,7 +9,7 @@
 #define GETCONFV(TEMP,KEY,VAL) 	istringstream TEMP(serializeHead[string(KEY)]);TEMP >> VAL
 ReqHead::ReqHead(string reqMsg)
 {
-	/* ÔÚ´Ë´¦Ìí¼Ó³õÊ¼»¯Öµ */
+	/* åœ¨æ­¤å¤„æ·»åŠ åˆå§‹åŒ–å€¼ */
 	GenerateDefaultReqHead();
 	MapReqHead(reqMsg);
 	DeserializeReqHead();
@@ -27,9 +27,9 @@ string ReqHead::GetHeadInfo()
 
 void ReqHead::GenerateDefaultReqHead()
 {
-	/* ÈôÒª¶ÔÖµ½øĞĞ³õÊ¼»¯ 
-	 * ÔÚ¹¹Ôìº¯ÊıÏÈ¶Ô³ÉÔ±½øĞĞ³õÊ¼»¯	
-	 * ²»ÒªÔÚ´Ë´¦ĞŞ¸Ä
+	/* è‹¥è¦å¯¹å€¼è¿›è¡Œåˆå§‹åŒ– 
+	 * åœ¨æ„é€ å‡½æ•°å…ˆå¯¹æˆå‘˜è¿›è¡Œåˆå§‹åŒ–	
+	 * ä¸è¦åœ¨æ­¤å¤„ä¿®æ”¹
 	 */
 	CONFINSERT("Method",method);
 	CONFINSERT("File",file);
@@ -56,11 +56,11 @@ void ReqHead::MapReqHead(string context)
 		preDef.trim(line, '\t');
 		size_t rp;
 		while ((rp = line.find_first_of('\r')) != string::npos)line.erase(rp);
-		// #¿ªÍ·Îª×¢ÊÍ
+		// #å¼€å¤´ä¸ºæ³¨é‡Š
 		if (line[0] == '#' || line.empty())continue;
 		auto i = line.find_first_of(':');
 		if (i == string::npos) {
-			//½âÎöÍ·
+			//è§£æå¤´
 			auto f1 = line.find_first_of(' ');
 			auto f2 = line.find_first_of(' ', f1 + 1);
 
@@ -75,7 +75,7 @@ void ReqHead::MapReqHead(string context)
 			serializeHead.insert_or_assign(string("Version"), httpVersion);
 			continue;
 		}
-		//Èç¹ûÕÒµ½ÁË:·ûºÅ Ôò±íÊ¾ÊÇºóÃæµÄÄÚÈİ
+		//å¦‚æœæ‰¾åˆ°äº†:ç¬¦å· åˆ™è¡¨ç¤ºæ˜¯åé¢çš„å†…å®¹
 		string key = line.substr(0, i);
 		preDef.trim(key);
 		preDef.trim(key, '\t');

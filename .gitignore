@@ -1,3 +1,6 @@
+.vs/
+.ipch
+.db
 # Prerequisites
 *.d
 

@@ -1,4 +1,4 @@
-#include "FileManager.h"
+﻿#include "FileManager.h"
 #include <fstream>
 FileManager::FileManager(string homeDir):homeDir(homeDir)
 {
