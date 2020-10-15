@@ -7,6 +7,7 @@
 using namespace std;
 int main()
 {
+    //system("chcp 65001");
     SetConsoleOutputCP(65001);
     Configuration& conf = *new Configuration("default.cfg");
     console.Log("当前加载的配置:\n" + conf.GetConfigurationInfo());

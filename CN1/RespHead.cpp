@@ -28,7 +28,7 @@ string RespHead::GenerateRespHead()
 		oss << p.first << ":" << p.second << "\r" << endl;
 	}
 	oss << "\r" << endl;
-	console.Warning(oss.str());
+	console.SendInfo(oss.str());
 	return oss.str();
 }
 
@@ -94,13 +94,13 @@ void RespHead::AddHeader(pair<string, string> newHeader)
 void RespHead::SetCurrentDate()
 {
 	time_t rawTime;
-	struct tm* timeInfo;
+	struct tm* timeInfo=new struct tm();
 	char szTemp[30] = { 0 };
 	time(&rawTime);
-	timeInfo = gmtime(&rawTime);
+	 gmtime_s(timeInfo,&rawTime);
 	char buffer[128];
 	strftime(buffer, 128, "%a, %d %b %Y %H:%M:%S GMT", timeInfo);
-	
+	delete timeInfo;
 	date = buffer;
 	CONFINSERT("Date", date);
 }

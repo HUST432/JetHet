@@ -1,4 +1,5 @@
-﻿#include "Server.h"
+﻿#define _WINSOCK_DEPRECATED_NO_WARNINGS
+#include "Server.h"
 #include "WinsockEnv.h"
 
 #include <sstream>
@@ -201,6 +202,7 @@ string Server::GetClientAddress(SOCKET s)
 	rtn = getsockname(s, (LPSOCKADDR)&clientAddr, &nameLen);
 	if (rtn != SOCKET_ERROR) {
 		clientAddress += inet_ntoa(clientAddr.sin_addr);
+		
 	}
 
 	return clientAddress;
@@ -224,6 +226,7 @@ void Server::Socket()
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
 	addr.sin_addr.S_un.S_addr = inet_addr(address.c_str());
+	
 }
 
 void Server::Bind()

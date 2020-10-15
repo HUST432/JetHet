@@ -6,6 +6,7 @@
 #define FOREGROUND_YELLOW  0x0006
 #define FOREGROUND_INTSYELLOW 0x006F
 #define FOREGROUND_INTSGREEN 0x002F
+#define FOREGROUND_INTSBLUE 0x001F
 void Console::Error(string err)
 {
     INITCOLOR(STD_ERROR_HANDLE);
@@ -46,4 +47,11 @@ void Console::Throw(int code, string err)
     strcpy_s(msg, err.c_str());
     sprintf_s(msg + err.length(), 20, "%d", code);
     throw msg;
+}
+
+void Console::SendInfo(string msg)
+{
+    INITCOLOR(STD_OUTPUT_HANDLE);
+    SETCOLOR(FOREGROUND_INTSBLUE, cout << "[Send]");
+    SETCOLOR(FOREGROUND_BLUE, cout << msg << endl);
 }

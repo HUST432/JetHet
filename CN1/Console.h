@@ -10,6 +10,7 @@ public:
 	static void Warning(string warn);
 	static void Log(string msg);
 	static void Throw(int code, string err);
+	static void SendInfo(string msg);
 };
 
 static Console console;
