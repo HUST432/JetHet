@@ -113,9 +113,13 @@ public:
 	/// <param name="s"></param>
 	void SendMsg(SOCKET client,string s);
 
+	void SendBuffer(SOCKET client,const char* buf,size_t size);
+
 	void SetInteraction(Interaction* interaction);
 
 	void Loop();
+
+	void CloseSocket(SOCKET client);
 
 	void Close();
 

@@ -125,6 +125,19 @@ void Server::SendMsg(SOCKET client, string s)
 	}
 }
 
+void Server::SendBuffer(SOCKET client, const char* buf, size_t size)
+{
+	auto iter = find(errs->begin(), errs->end(), client);
+	if (iter != errs->end())return;
+	int nRC = send(client, buf,size, 0);
+	if (nRC == SOCKET_ERROR) {
+		//console.Error("Send Message Failed!");
+		//console.Log(GetClientAddress(client) + " has lost the connection");
+		AddErrSession(client);
+		if (interaction)interaction->onConnectionFailed(client);
+	}
+}
+
 void Server::SetInteraction(Interaction* interaction)
 {
 	interaction->SetServer(this);
@@ -140,8 +153,10 @@ void Server::Loop()
 		RemoveErrSessions();
 		//在监听到退出循环的事件后退出循环
 		if (interaction != 0)
-			if (interaction->InterruptLoopEvent())
+			if (interaction->InterruptLoopEvent()) {
+				Close();
 				break;
+			}
 		//将缓冲区设为0
 		FD_ZERO(&rfds);
 		FD_ZERO(&wfds);
@@ -159,6 +174,14 @@ void Server::Loop()
 		RevRequest();
 
 		RevMessage();
+	}
+}
+
+void Server::CloseSocket(SOCKET client)
+{
+	if (client != INVALID_SOCKET) {
+		//closesocket(client);
+		AddErrSession(client);
 	}
 }
 
@@ -223,6 +246,8 @@ void Server::Accept(sockaddr_in &addr,int &nAddrLen)
 	}
 	SetBlockMode(s);
 	AddSession(s);
+	//char opt = 1;
+	//setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	string nameAddr = GetClientAddress(s);
 	//console.Log("Accept Address:"+nameAddr);
 	// ADD INTO MAP
@@ -254,8 +279,10 @@ void Server::RemoveErrSessions()
 		if (*iter == INVALID_SOCKET)continue;
 		//移除失效的会话
 		auto err = find(conns->begin(), conns->end(), *iter);
-		if (err != conns->end())conns->erase(err);
-	
+		if (err != conns->end()) { 
+			//closesocket(*err);
+			conns->erase(err); 
+		}
 	}
 	errs->clear();
 }

@@ -1,9 +1,12 @@
 #pragma once
 #include "Server.h"
+#include "Configuration.h"
 class NetInteraction:public Server::Interaction
 {
+private:
+	Configuration* conf;
 public:
-	NetInteraction();
+	NetInteraction(Configuration& conf);
 	virtual void onInitialize(string str)override;
 	virtual bool InterruptLoopEvent()override;
 	virtual void onListenFailed(int errCode)override;

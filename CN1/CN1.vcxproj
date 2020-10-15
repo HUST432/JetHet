@@ -88,6 +88,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,23 +140,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="CN1.cpp" />
     <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="NetInteraction.cpp" />
+    <ClCompile Include="PreDefinations.cpp" />
     <ClCompile Include="ReqHead.cpp" />
+    <ClCompile Include="RequestHandler.cpp" />
     <ClCompile Include="RespHead.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="WinsockEnv.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="PreDefinations.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="NetInteraction.h" />
     <ClInclude Include="ReqHead.h" />
+    <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="RespHead.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="WinsockEnv.h" />

@@ -3,17 +3,18 @@
 #include "Console.h"
 #include "NetInteraction.h"
 #include "Configuration.h"
+#include "PreDefinations.h"
 using namespace std;
 int main()
 {
+    SetConsoleOutputCP(65001);
+    Configuration& conf = *new Configuration("default.cfg");
+    console.Log("当前加载的配置:\n" + conf.GetConfigurationInfo());
     try {
-        Configuration& conf = *new Configuration("default.cfg");
-        console.Log("当前加载的配置:\n"+conf.GetConfigurationInfo());
+
         Server& s = *new Server(conf);
 
-        delete &conf;
-
-        NetInteraction& ni=*new NetInteraction();
+        NetInteraction& ni=*new NetInteraction(conf);
         s.SetInteraction(&ni);
 
         s.StartUp();
@@ -24,10 +25,13 @@ int main()
         console.Log("开始监听外部请求...");
         s.Loop();
         console.Warning("程序正常终止..");
+        delete& conf;
+        return 0;
     }
     catch (const char* msg) {
        console.Error(*new string(msg));
-       console.Warning("程序遭遇意外退出..");
+       console.Warning("程序意外退出..");
+       delete& conf;
+       return -1;
     }
-    
 }

@@ -1,20 +1,27 @@
 ﻿#include "FileManager.h"
+#include "PreDefinations.h"
+#include "Buffer.h"
 #include <fstream>
-FileManager::FileManager(string homeDir):homeDir(homeDir)
+FileManager::FileManager(Configuration& conf):homeDir(conf.homeDir),conf(&conf)
 {
 }
 
-long long int FileManager::ReadToEnd(string file, ostringstream& buffer)
+unsigned long int FileManager::ReadToEnd(string file, Buffer& buffer)
 {
     string fullPath = homeDir + file;
     ifstream fs;
     fs.open(fullPath, ios::binary|ios::in);
     if (!fs) {
         fs.close();
-        return false;
+        throw FileNotFoundException(fullPath);
     }
-    buffer << fs.rdbuf();
-    long long int len = fs.tellg();
+    fs.seekg(0, std::ios::end);
+    unsigned long len =(unsigned long) fs.tellg()+1;
+    fs.seekg(0, std::ios::beg);
+    char* buf = new char[len];
+    fs.read(buf, len);
+    buffer =buffer+Buffer(buf,len);
+    delete[] buf;
     fs.close();
     return len;
 }

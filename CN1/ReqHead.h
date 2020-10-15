@@ -4,8 +4,9 @@
 using namespace std;
 class ReqHead
 {
-private:
+
 	map<string, string> serializeHead;
+public:
 	string method;
 	string file;
 	string httpVersion;

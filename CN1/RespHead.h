@@ -1,12 +1,52 @@
 ﻿#pragma once
 #include <string>
 #include <map>
+#include <vector>
 using namespace std;
+#define STATUS_OK "OK"
+#define STATUS_NOTFOUND "NOTFOUND"
+
+#define ENCODING_GZIP "gzip"
+#define ENCODING_DEFLATE "deflate"
+#define ENCODING_BR "br"
+
+#define TYPE_PLAIN "text/plain"
+#define TYPE_HTML "text/html"
+#define TYPE_XML "application/xml"
+#define TYPE_XHTML "application/xhtml+xml"
+
+#define TYPE_PNG "image/png"
+#define TYPE_GIF "image/gif"
+#define TYPE_JPG "image/jpg"
+#define TYPE_JPEG "image/jpeg"
+#define TYPE_WEBP "image/webp"
+#define TYPE_APNG "image/apng"
+#define TYPE_SVGXML "image/svg+xml"
+#define TYPE_JS "application/javascript"
+#define TYPE_XJS "application/x-javascript"
+#define TYPE_JSON "application/json"
+#define TYPE_CSS "text/css"
+
+#define CHARSET_UTF8 "utf-8"
+#define CHARSET_GBK "gbk"
+#define CHARSET_GB2312 "gb2312"
+
+#define ACCEPT_BYTES "bytes"
+
+#define CONN_KEEPALIVE "Keep-Alive"
+#define CONN_CLOSE "Close"
 class RespHead
 {
+private:
+	vector<pair<string, string>> appendedHead;
+
+	map<string, string> serializedHead;
+
 	string httpVersion;
 	int statusCode;
 	string status;
+
+	string connection;
 
 	string date;//当前的GMT时间。你可以用setDateHeader来设置这个头以避免转换时间格式的麻烦
 	//表示内容长度。只有当浏览器使用持久HTTP连接时才需要这个数据。
@@ -24,6 +64,8 @@ class RespHead
 	//设置和页面关联的Cookie。Servlet不应使用response.setHeader("Set-Cookie", ...)，而是应使用HttpServletResponse提供的专用方法addCookie。参见下文有关Cookie设置的讨论。
 	string setCookie;
 
+	string acceptRanges;
+	long age;
 
 	string expires;//Expires 应该在什么时候认为文档已经过期，从而不再缓存它
 	//文档的最后改动时间。客户可以通过If-Modified-Since请求头提供一个日期，
@@ -48,5 +90,34 @@ class RespHead
 	//例如，response.setHeader("WWW-Authenticate", "BASIC realm=\"executives\"")。
 	//注意Servlet一般不进行这方面的处理，而是让Web服务器的专门机制来控制受密码保护页面的访问（例如.htaccess）。
 	string wwwAuthenticate;
+public:
+	RespHead(int statusCode,string status);
+
+	string GenerateRespHead();
+
+	void SetAcceptRanges(string range);
+	/// <summary>
+	/// 设置服务器名字
+	/// </summary>
+	/// <param name="server"></param>
+	void SetServer(string server);
+
+	void SetHttpVersion(string ver);
+
+	void SetConnection(string conn);
+
+	void SetContentType(string type);
+
+	void SetContentType(string type,string charset);
+
+	void SetContentLength(unsigned long int msgLen);
+	///仅对文本进行压缩
+	void SetContentEncoding(string encoding);
+
+	void SetAge(long age);
+
+	void AddHeader(pair<string,string> newHeader);
+private:
+	void SetCurrentDate();
 };
 
