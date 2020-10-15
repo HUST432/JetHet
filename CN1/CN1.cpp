@@ -8,7 +8,10 @@ using namespace std;
 int main()
 {
     //system("chcp 65001");
+    //设置语言环境
     SetConsoleOutputCP(65001);
+    //std::locale::global(std::locale(""));
+    //程序开始
     Configuration& conf = *new Configuration("default.cfg");
     console.Log("当前加载的配置:\n" + conf.GetConfigurationInfo());
     try {

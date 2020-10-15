@@ -13,6 +13,7 @@ Buffer& RequestHandler::GetResponse(ReqHead& head)
 
 	//对于RESTful的GET请求
 	if (head.method == "GET") {
+
 		//如果接受的file为/
 		if (head.file == "/")head.file = conf->homePage;
 		size_t akpos = 0;

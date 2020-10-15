@@ -1,7 +1,9 @@
 ﻿#pragma once
 #include <string>
+
 #include <vector>
 using namespace std;
+
 class PreDefinations {
 public:
 	///去除字符串两边字符
@@ -42,6 +44,33 @@ public:
 		arr.push_back(str.substr(i));
 		return arr;
 	}
+	/// <summary>
+	/// URL转字符
+	/// </summary>
+	/// <param name="SRC"></param>
+	/// <returns></returns>
+	static std::string UrlDecode(std::string& SRC)
+	{
+		std::string ret;
+		char ch;
+		int ii;
+		for (size_t i = 0; i < SRC.length(); i++) {
+			if (int(SRC[i]) == 37) {
+				sscanf_s(SRC.substr(i + 1, 2).c_str(), "%x", &ii);
+				ch = static_cast<char>(ii);
+				ret += ch;
+				i = i + 2;
+			}
+			else {
+				ret += SRC[i];
+			}
+		}
+		return (ret);
+	}
+
+	wstring string2wstring(string str);
+
+	string wstring2string(wstring wstr);
 };
 static PreDefinations preDef;
 
